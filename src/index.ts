@@ -31,7 +31,7 @@ ${c.underline("Examples:")}
   $ perfdoc foo.js
   $ perfdoc --short foo.js
   $ node --trace-deopt foo.js | perfdoc
-  `);
+\n`);
   process.exit(0);
 }
 
@@ -44,6 +44,7 @@ const short = !!args.short;
 if (args._.length > 2) {
   const out = execSync("node --trace-deopt " + args._[2]);
   const lines = Buffer.isBuffer(out) ? out.toString("utf8") : out;
+  process.stdout.write("\n");
   lines.split("\n").map(parseLine);
   exitIfBail();
 } else {
@@ -56,7 +57,12 @@ if (args._.length > 2) {
   // Show help if we don't receive something via stdin
   const timer = setTimeout(showHelp, 100);
 
+  let first = true;
   rl.on("line", input => {
+    if (first) {
+      process.stdout.write("\n");
+      first = false;
+    }
     parseLine(input);
     clearTimeout(timer);
   });
