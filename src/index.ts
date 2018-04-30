@@ -11,8 +11,8 @@ let deopt = false;
 let counter = 0;
 
 const args = mri(process.argv, {
-  boolean: ["short", "help", "bail"],
-  alias: { h: "help" },
+  boolean: ["short", "help", "bail", "version"],
+  alias: { h: "help", v: "version" },
 });
 
 export function showHelp() {
@@ -23,9 +23,10 @@ ${c.underline("Usage:")}
   $ perfdoc [options] <file>
 
 ${c.underline("Options:")}
-  --short      Hide code frame
-  --bail       Exit with code 1 if a deoptimization has been found
-  --help, -h   Show usage information and the options listed here
+  --short         Hide code frame
+  --bail          Exit with code 1 if a deoptimization has been found
+  --help, -h      Show usage information and the options listed here
+  --version, -v   Show version information
 
 ${c.underline("Examples:")}
   $ perfdoc foo.js
@@ -37,6 +38,10 @@ ${c.underline("Examples:")}
 
 if (args.help) {
   showHelp();
+} else if (args.version) {
+  // tslint:disable no-var-requires
+  process.stdout.write(require("../package.json").version + "\n");
+  process.exit(0);
 }
 
 const short = !!args.short;
