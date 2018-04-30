@@ -31,9 +31,10 @@ Usage:
   $ perfdoc [options] <file>
 
 Options:
-  --short      Hide code frame
-  --bail       Exit with code 1 if a deoptimization has been found
-  --help, -h   Show usage information and the options listed here
+  --short         Hide code frame
+  --bail          Exit with code 1 if a deoptimization has been found
+  --help, -h      Show usage information and the options listed here
+  --version, -v   Show version information
 
 Examples:
   $ perfdoc foo.js
