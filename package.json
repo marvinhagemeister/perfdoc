@@ -1,6 +1,6 @@
 {
   "name": "perfdoc",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "CLI tool to get human readable about v8 de-optimizations",
   "main": "dist/index.js",
   "bin": {
