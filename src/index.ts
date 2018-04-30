@@ -15,7 +15,7 @@ const args = mri(process.argv, {
   alias: { h: "help" },
 });
 
-if (args.help) {
+export function showHelp() {
   process.stdout.write(`
 🔍  Print V8 deoptimization reasons in a developer friendly way
 
@@ -35,6 +35,10 @@ ${c.underline("Examples:")}
   process.exit(0);
 }
 
+if (args.help) {
+  showHelp();
+}
+
 const short = !!args.short;
 
 if (args._.length > 2) {
@@ -49,7 +53,13 @@ if (args._.length > 2) {
     terminal: false,
   });
 
-  rl.on("line", input => parseLine(input));
+  // Show help if we don't receive something via stdin
+  const timer = setTimeout(showHelp, 100);
+
+  rl.on("line", input => {
+    parseLine(input);
+    clearTimeout(timer);
+  });
   rl.on("close", () => exitIfBail());
 }
 
