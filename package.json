@@ -1,30 +1,41 @@
 {
-  "name": "typescript-starter",
+  "name": "perfdoc",
   "version": "0.0.1",
-  "description": "typescript boilerplate project",
+  "description": "CLI tool to get human readable about v8 de-optimizations",
   "main": "dist/index.js",
+  "bin": {
+    "perfdoc": "dist/index.js"
+  },
   "author": "Marvin Hagemeister <marvin@marvinhagemeister.de>",
   "license": "MIT",
   "scripts": {
     "cleanup": "rimraf dist/",
     "lint": "tslint 'src/**/*.ts' 'src/**/*.tsx'",
-    "build": "npm run cleanup && tsc -p tsconfig.build.json",
-    "test": "jest",
-    "test-watch": "npm t -- --watch",
-    "coverage": "npm t -- --coverage",
+    "build": "npm run cleanup && tsc ",
+    "e2e":
+      "node --trace-deopt ./src/__fixtures/deopt.js > ./src/__fixtures/deopt1.txt && node ./dist/index.js < src/__fixtures/deopt1.txt",
+    "e2e2": "node ./dist/index.js ./src/__fixtures/deopt.js",
+    "e2e3":
+      "node --trace-deopt ./src/__fixtures/deopt.js | node ./dist/index.js",
+    "test": "npm run build && npm run e2e && npm run e2e -- --short",
     "prepublishOnly": "npm run lint && npm t && npm run build",
     "precommit": "lint-staged"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@marvinh/locateable-error": "^1.2.1",
+    "chalk": "^2.4.1",
+    "mri": "^1.1.0"
+  },
   "devDependencies": {
     "@types/jest": "^22.2.3",
+    "@types/mri": "^1.1.0",
+    "@types/node": "^6.0.107",
     "husky": "^0.14.3",
     "jest": "^22.4.3",
     "lint-staged": "^7.0.5",
     "prettier": "^1.12.1",
     "rimraf": "^2.6.1",
     "ts-jest": "^22.4.4",
-    "ts-node": "^6.0.2",
     "tslint": "^5.7.0",
     "tslint-config-sevenval": "^1.0.0",
     "typescript": "^2.8.3"
